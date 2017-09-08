@@ -32,17 +32,17 @@ var spawnThinker = {
 
 
     create: function(spawnName, populationLimits) {
+      if(Game.spawns[spawnName].spawning) { return false; }
+
         const buildOrder = ['harvester', 'upgrader', 'builder', 'repairman', 'shooter', 'claimer'];
         for(var role in buildOrder) {
-          const pop = _.filter(Game.creeps, (k) => k.memory.role == 'repairman').length;
+          const pop = _.filter(Game.creeps, (k) => k.memory.role == role).length;
           if(pop < populationLimits[role]) {
             var body = this.bodyForRole(role, 300);
             var name = undefined;
             console.log(`Creating ${role}` role of body ${body});
             Game.spawns[spawnName].createCreep(body, name, { role: role });
             return true;
-          } else {
-            console.log('Plenty of ${role} (${populationLimits[role]})');
           }
         }
         return false;
