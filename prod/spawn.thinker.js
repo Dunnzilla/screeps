@@ -1,6 +1,9 @@
 var cc = require('creep.choices');
 
 var spawnThinker = {
+    calculateCost: function(bodyParts) {
+        return _.reduce(bodyParts, function(sum, n) { return sum + (0+BODYPART_COST[n]); }, 0);
+    },
 
     /** @param {Creep} creep **/
     run: function(creep) {
@@ -27,7 +30,16 @@ var spawnThinker = {
         return false;
     },
     bodyForRole: function(role, cost) {
-        return [MOVE, MOVE, WORK, CARRY];
+        var config = [WORK, CARRY, MOVE, MOVE];
+        const extras = [WORK, CARRY, MOVE];
+        var newCost = this.calculateCost(config);
+        while(newCost < cost) {
+          var nextPart = extras[Math.round(Math.random() * extras.length)];
+          config.push(nextPart);
+          newCost = this.calculateCost(config);
+        }
+        config.pop();
+        return config;
     },
 
 
@@ -38,8 +50,8 @@ var spawnThinker = {
         for(var role in buildOrder) {
           const pop = _.filter(Game.creeps, (k) => k.memory.role == role).length;
           if(pop < populationLimits[role]) {
-            var body = this.bodyForRole(role, 300);
-            var name = undefined;
+            var body = this.bodyForRole(role, Game.spawns[spawnName].energy);
+            var name = `${role}_${(Math.random() * 100000).toString().substring(0, 5);}`;
             console.log(`Creating ${role} role of body ${body}`);
             Game.spawns[spawnName].createCreep(body, name, { role: role });
             return true;
