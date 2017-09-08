@@ -15,7 +15,7 @@ var roleHarvester = {
         });
         // Last preferred: stores. If all other structures are full of energy, start stuffing it into stores.
         if( ! target ) {
-            target = creep.room.findClosestByRange(FIND_STRUCTURES, {
+            target = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                 filter: (s) => { return ( s.structureType == STRUCTURE_STORAGE && s.storeCapacity > _.sum(s.store)); }}
             );
         }
