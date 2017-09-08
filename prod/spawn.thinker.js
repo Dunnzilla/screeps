@@ -28,6 +28,13 @@ var spawnThinker = {
     },
 
     create: function(populationLimits) {
+        const buildOrder = ['harvester', 'upgrader', 'builder', 'repairman', 'shooter', 'claimer'];
+        buildOrder.forEach(function buildIf(role) {
+          const pop = _.filter(Game.creeps, (k) => k.memory.role == 'repairman').length;
+          if(pop < populationLimits[role]) {
+            
+          }
+        });
         return false;
     },
 
@@ -42,4 +49,3 @@ var spawnThinker = {
 };
 
 module.exports = spawnThinker;
-
