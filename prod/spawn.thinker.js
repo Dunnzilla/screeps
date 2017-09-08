@@ -26,15 +26,25 @@ var spawnThinker = {
     cull: function(populationLimits) {
         return false;
     },
+    bodyForRole: function(role, cost) {
+        return [MOVE, MOVE, WORK, CARRY];
+    },
 
-    create: function(populationLimits) {
+
+    create: function(spawnName, populationLimits) {
         const buildOrder = ['harvester', 'upgrader', 'builder', 'repairman', 'shooter', 'claimer'];
-        buildOrder.forEach(function buildIf(role) {
+        for(var role in buildOrder) {
           const pop = _.filter(Game.creeps, (k) => k.memory.role == 'repairman').length;
           if(pop < populationLimits[role]) {
-            
+            var body = this.bodyForRole(role, 300);
+            var name = undefined;
+            console.log(`Creating ${role}` role of body ${body});
+            Game.spawns[spawnName].createCreep(body, name, { role: role });
+            return true;
+          } else {
+            console.log('Plenty of ${role} (${populationLimits[role]})');
           }
-        });
+        }
         return false;
     },
 
