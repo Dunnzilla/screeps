@@ -1,6 +1,6 @@
 var cc = require('creep.choices');
 
-var roleUpgrader = {
+var spawnThinker = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
@@ -21,8 +21,25 @@ var roleUpgrader = {
         } else {
             cc.stillHarvesting(creep);
         }
+    },
+
+    cull: function(populationLimits) {
+        return false;
     }
+
+    create: function(populationLimits) {
+        return false;
+    }
+
+    isWaitingOnMoreEnergy: function(spawnName) {
+        return true;
+    }
+
+    getPopulationPercent: function(populationLimits) {
+        return 100.0;
+    }
+
 };
 
-module.exports = roleUpgrader;
+module.exports = spawnThinker;
 
