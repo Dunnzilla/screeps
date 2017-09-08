@@ -25,15 +25,15 @@ var spawnThinker = {
 
     cull: function(populationLimits) {
         return false;
-    }
+    },
 
     create: function(populationLimits) {
         return false;
-    }
+    },
 
     isWaitingOnMoreEnergy: function(spawnName) {
         return true;
-    }
+    },
 
     getPopulationPercent: function(populationLimits) {
         return 100.0;
