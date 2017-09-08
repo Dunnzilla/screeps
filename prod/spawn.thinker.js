@@ -40,7 +40,7 @@ var spawnThinker = {
           if(pop < populationLimits[role]) {
             var body = this.bodyForRole(role, 300);
             var name = undefined;
-            console.log(`Creating ${role}` role of body ${body});
+            console.log(`Creating ${role} role of body ${body}`);
             Game.spawns[spawnName].createCreep(body, name, { role: role });
             return true;
           }
