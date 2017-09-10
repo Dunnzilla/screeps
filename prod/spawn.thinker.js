@@ -11,7 +11,7 @@ var spawnThinker = {
     bodyForRole: function(role, cost) {
         var basePerRole = {
             builder: [WORK, CARRY, MOVE],
-            claimer: [TOUGH, MOVE],
+            claimer: [TOUGH, CLAIM, MOVE],
             harvester: [WORK, CARRY, MOVE],
             healer: [TOUGH, MOVE, HEAL, HEAL, TOUGH, HEAL, MOVE, MOVE],
             repairman: [WORK, CARRY, MOVE],
