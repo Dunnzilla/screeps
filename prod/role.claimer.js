@@ -6,7 +6,6 @@ var roleClaimer = {
       // If I have manually set a Claim flag, run all Claimers to it.
       if( Game.flags['Claim'] ) {
         creep.moveTo(Game.flags['Claim'].pos, {visualizePathStyle: {stroke: '#0033FF'}});
-        return;
       }
 
       creep.say('⭐️');
