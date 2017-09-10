@@ -42,7 +42,7 @@ var roleRepairMan = {
             // console.log(`Moving to ${targets[0]} for repairs`);
             var bt = this.pickBestTarget(targets);
             creep.memory.repairTargetId = bt.id;
-            creep.say(`💾T:${bt.name}`);
+            console.log(`${creep.name} focusing on repairing ${bt.name}`);
         }
       }
       if( ! creep.memory.repairTargetId || ! Game.structures[creep.memory.repairTargetId] ) {
