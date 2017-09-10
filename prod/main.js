@@ -22,7 +22,8 @@ module.exports.loop = function () {
         shooter: 1,
         claimer: 0
     };
-    for(var room of Game.rooms) {
+    Object.keys(Game.rooms).forEach(function workRoom(roomName ) {
+      var room = Game.rooms[roomName];
       var spawns = room.find(FIND_MY_SPAWNS);
       spawns.forEach(function workSpawn(spawn) {
         spawnThinker.cull(spawn.name, populationLimits);
@@ -54,5 +55,5 @@ module.exports.loop = function () {
             }
           }
       });
-    }
+    });
 }
