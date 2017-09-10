@@ -1,7 +1,7 @@
 var energyThinker = {
   // Returns nearest object from which a creep can withdraw energy
   getClosestATM: function(creep) {
-    var validWithDrawStructures = [STRUCTURE_LINK, STRUCTURE_STORAGE, STRUCTURE_CONTAINER];
+    var validWithDrawStructures = [STRUCTURE_STORAGE, STRUCTURE_CONTAINER];
     return creep.pos.findClosestByRange(FIND_STRUCTURES,
       { filter: (s) => { return _.indexOf(validWithDrawStructures, s.structureType) != -1 && s.isActive() } });
   },
