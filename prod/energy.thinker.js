@@ -32,6 +32,7 @@ var energyThinker = {
         console.log(`You asked ${creep.name} to slurp ${structure} but that is not something I know how to get energy from.`);
         break;
     }
+    return result;
   }
 };
 
