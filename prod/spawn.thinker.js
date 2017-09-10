@@ -57,8 +57,8 @@ var spawnThinker = {
       return (this.getRoomEnergyPercent() < 100.0);
     },
 
-    countCreeps: function(creepRole) {
-      if( ! creepRole ) { return Object.keys(Game.creeps).length; }
+    countCreeps: function(role) {
+      if( ! role ) { return Object.keys(Game.creeps).length; }
       return _.filter(Game.creeps, (k) => k.memory.role == role).length;
     },
 
