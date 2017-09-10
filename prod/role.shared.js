@@ -29,14 +29,14 @@ var roleRepairMan = {
             creep.memory.repairing = true;
             creep.say('🚧 repair');
         }
-        
+
         if(creep.memory.repairing) {
             const targets = creep.room.find(FIND_STRUCTURES, {
                 filter: object => object.hits < object.hitsMax
             });
-            
+
             targets.sort((a,b) => a.hits - b.hits);
-            
+
             if(targets.length > 0) {
                 // console.log(`Moving to ${targets[0]} for repairs`);
                 var bt = this.pickBestTarget(targets);
@@ -44,17 +44,18 @@ var roleRepairMan = {
                     creep.moveTo(bt);
                 }
             } else {
-                if(spawnThinker.isWaitingOnMoreEnergy('Spawn1')) {
-                    roleHarvester.runOptimized(creep);
-                }
-                roleUpgrader.run(creep);
+              var spawnName = creep.room.find(FIND_MY_SPAWNS)[0].name;
+              if(spawnThinker.isWaitingOnMoreEnergy(spawnName)) {
+                roleHarvester.runOptimized(creep);
+              }
+              roleUpgrader.run(creep);
             }
         } else {
             cc.stillHarvesting(creep);
         }
 
     }
-    
+
 };
 
 module.exports = roleRepairMan;

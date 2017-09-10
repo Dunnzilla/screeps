@@ -73,7 +73,8 @@ var roleRepairMan = {
               default: break;
             }
           } else {
-            if(spawnThinker.isWaitingOnMoreEnergy('Spawn1')) {
+            var spawnName = creep.room.find(FIND_MY_SPAWNS)[0].name;
+            if(spawnThinker.isWaitingOnMoreEnergy(spawnName)) {
               roleHarvester.runOptimized(creep);
             } else {
               roleUpgrader.run(creep);
