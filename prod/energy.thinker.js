@@ -59,13 +59,10 @@ var energyThinker = {
           )
       } });
   },
-  structureIsASource: function(s) {
-    return (s && s.energy > 0 && ! s.structureType);
-  },
 
 
   slurp: function(creep, structure) {
-    if(this.structureIsASource(structure)) {
+    if(structure instanceof Source) {
       return creep.harvest(structure);
     }
     var result = false;
