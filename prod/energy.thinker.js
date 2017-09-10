@@ -4,6 +4,9 @@ var energyThinker = {
   // links which are close to RoomControllers and Towers etc.
   //
   linkPump: function() {
+    // hardcode for now
+    return Game.getObjectById('59b5826fb0e18a0436e7d76b').transferEnergy(Game.getObjectById('59b2d70dcd3e5c694fee9c21'))
+
     var scoreById = {};
     var links = _.filter(Game.structures, s => s.structureType == STRUCTURE_LINK);
     if(links.length < 2) { return false; }
