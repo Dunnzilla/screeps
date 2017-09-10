@@ -3,17 +3,30 @@ var cc = require('creep.choices');
 var roleClaimer = {
     /** @param {Creep} creep **/
     run: function(creep) {
-        if( ! Game.flags['Claim'] ) { return; }
+      // If I have manually set a Claim flag, run all Claimers to it.
+      if( Game.flags['Claim'] ) {
+        creep.moveTo(Game.flags['Claim'].pos, {visualizePathStyle: {stroke: '#0033FF'}});
+        return;
+      }
 
-        var bestTarget = Game.flags['Claim'];
+      creep.say('⭐️');
+      var bestTarget = Game.flags['Claim'].pos.findClosestByRange(
+          FIND_STRUCTURES, { filter: s => s.structureType == STRUCTURE_CONTROLLER }
+      );
+      if( ! bestTarget ) { return; }
 
-        creep.say('⭐️');
-        var result = creep.claimController(bestTarget);
-        switch(result) {
-            case ERR_NOT_IN_RANGE: creep.moveTo(bestTarget, {visualizePathStyle: {stroke: '#0033FF'}}); break;
-            case OK: break;
-            default: console.log(`Cannot claim ${bestTarget}: ${result}`); break;
-        }
+      var result = creep.claimController(bestTarget);
+      switch(result) {
+          case ERR_NOT_IN_RANGE:
+            creep.moveTo(bestTarget.pos, {visualizePathStyle: {stroke: '#00FF00'}});
+            break;
+          case OK:
+            console.log('--- Claimed! ---');
+            break;
+          default:
+            console.log(`Cannot claim ${bestTarget}: ${result}`);
+          break;
+      }
     }
 };
 
