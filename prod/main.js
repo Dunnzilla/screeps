@@ -52,10 +52,7 @@ module.exports.loop = function () {
                     case 'shooter': roleShooter.run(creep); break;
                 }
             }
-        }
+          }
       });
     });
-
-    // require('spawn.thinker').create('Spawn1', {harvester: 5})
-    }
 }
