@@ -6,11 +6,13 @@ var roleShooter = require('role.shooter');
 var spawnThinker = require('spawn.thinker');
 var towerBasic = require('tower.basic');
 var roleClaimer = require('role.claimer');
+var energyThinker = require('energy.thinker');
 
 var mm = require('memory.manager');
 
 module.exports.loop = function () {
     mm.clean();
+    energyThinker.linkPump();
 
     var populationLimits = {
         harvester: 6,
