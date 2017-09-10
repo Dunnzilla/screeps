@@ -9,16 +9,36 @@ var spawnThinker = {
         return false;
     },
     bodyForRole: function(role, cost) {
-        var config = [WORK, CARRY, MOVE, MOVE];
-        const extras = [WORK, CARRY, MOVE];
+        var basePerRole = {
+            builder: [WORK, CARRY, MOVE],
+            claimer: [TOUGH, MOVE],
+            harvester: [WORK, CARRY, MOVE],
+            healer: [TOUGH, MOVE, HEAL, HEAL, TOUGH, HEAL, MOVE, MOVE],
+            repairman: [WORK, CARRY, MOVE],
+            shooter: [TOUGH, TOUGH, TOUGH, RANGED_ATTACK, TOUGH, MOVE],
+            upgrader: [WORK, CARRY, MOVE]
+        };
+
+        const extrasPerRole = {
+            builder: [WORK, CARRY, MOVE],
+            claimer: [TOUGH, MOVE],
+            harvester: [WORK, CARRY, MOVE],
+            healer: [HEAL, TOUGH, MOVE],
+            repairman: [WORK, CARRY, MOVE],
+            shooter: [RANGED_ATTACK, TOUGH, MOVE],
+            upgrader: [WORK, CARRY, MOVE]
+        };
+        var config = basePerRole[role];
         var newCost = this.calculateCost(config);
-        while(newCost < cost) {
-          var nextPart = extras[Math.round(Math.random() * extras.length)];
+        var addedAny = false;
+        while(newCost <= cost) {
+          var nextPart = extrasPerRole[role][Math.round(Math.random() * extrasPerRole[role].length)];
           config.push(nextPart);
           newCost = this.calculateCost(config);
           console.log(`New cost for ${role} would be ${cost} for parts ${config}`);
+          addedAny = true;
         }
-        config.pop();
+        if(addedAny) { config.pop(); }
         return config;
     },
 
