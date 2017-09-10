@@ -5,27 +5,6 @@ var spawnThinker = {
         return _.reduce(bodyParts, function(sum, n) { return sum + (0+BODYPART_COST[n]); }, 0);
     },
 
-    /** @param {Creep} creep **/
-    run: function(creep) {
-        if(creep.memory.upgrading && creep.carry.energy == 0) {
-            creep.memory.upgrading = false;
-            creep.say('🔄 H4:Upgrade');
-        }
-        if(!creep.memory.upgrading && creep.carry.energy == creep.carryCapacity) {
-            creep.memory.upgrading = true;
-            creep.say('⚡ Upgrade');
-        }
-
-        if(creep.memory.upgrading) {
-            if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(creep.room.controller, {visualizePathStyle: {stroke: '#ffffff'}});
-                return;
-            }
-        } else {
-            cc.stillHarvesting(creep);
-        }
-    },
-
     cull: function(populationLimits) {
         return false;
     },
@@ -37,35 +16,61 @@ var spawnThinker = {
           var nextPart = extras[Math.round(Math.random() * extras.length)];
           config.push(nextPart);
           newCost = this.calculateCost(config);
+          console.log(`New cost for ${role} would be ${cost} for parts ${config}`);
         }
         config.pop();
         return config;
     },
 
-
+    getSpawnEnergyAvailable: function(spawnName) {
+      return Game.spawns[spawnName].room.energyAvailable;
+    },
+    generateName: function(role) {
+      const rn = (Math.random() * 100000).toString().substring(0, 5);
+      return `${role}_${rn}`;
+    },
     create: function(spawnName, populationLimits) {
       if(Game.spawns[spawnName].spawning) { return false; }
+      if(this.isWaitingOnMoreEnergy(spawnName)) { return false; }
 
         const buildOrder = ['harvester', 'upgrader', 'builder', 'repairman', 'shooter', 'claimer'];
-        for(var role in buildOrder) {
-          const pop = _.filter(Game.creeps, (k) => k.memory.role == role).length;
+        for(var role of buildOrder) {
+          const pop = this.countCreeps(role);
           if(pop < populationLimits[role]) {
-            var body = this.bodyForRole(role, Game.spawns[spawnName].energy);
-            var name = `${role}_${(Math.random() * 100000).toString().substring(0, 5);}`;
-            console.log(`Creating ${role} role of body ${body}`);
-            Game.spawns[spawnName].createCreep(body, name, { role: role });
-            return true;
+            console.log(`Need another ${role} (We have ${pop})`);
+            var body = this.bodyForRole(role, this.getSpawnEnergyAvailable(spawnName));
+            var name = this.generateName(role);
+            console.log(`Creating ${role} role of body ${body}: ${name}`);
+            var result = Game.spawns[spawnName].createCreep(body, name, { role: role });
+            return ( result == OK );
           }
         }
         return false;
     },
+    // TODO : if(defenseMinister.underAttack()) { return true; }
 
     isWaitingOnMoreEnergy: function(spawnName) {
-        return true;
+      // If we have harvesters and are > 50% population
+      // then let's wait for more energy.
+      if(this.countCreeps('harvester') < 1) { return false; }
+      if(this.getPopulationPercent() < 50.0) { return false; }
+      return (this.getRoomEnergyPercent() < 100.0);
     },
 
-    getPopulationPercent: function(populationLimits) {
-        return 100.0;
+    countCreeps: function(creepRole) {
+      if( ! creepRole ) { return Object.keys(Game.creeps).length; }
+      return _.filter(Game.creeps, (k) => k.memory.role == role).length;
+    },
+
+
+    // Returns 0.0 to 100.0
+    getRoomEnergyPercent: function(roomName) {
+      return (Game.rooms[roomName].energyAvailable / Game.rooms[roomName].energyCapacityAvailable) * 100.0;
+    },
+    getPopulationPercent: function(spawnName, populationLimits) {
+      var popMax = _.reduce(populationLimits, function(sum, n) { return sum + (0+n); }, 0);
+      if(popMax < 0) { popMax = 1; }
+      return ( this.countCreeps() / popMax ) * 100.0;
     }
 
 };
