@@ -64,7 +64,6 @@ var creepChoices = {
         if( ! bestSource ) {
           bestSource = this.pickBestSource(creep);
         }
-        console.log(`Best source for ${creep.name} is ${bestSource}`);
 
         switch(energyThinker.slurp(creep, bestSource)) {
           case ERR_NOT_IN_RANGE:
