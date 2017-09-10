@@ -7,6 +7,8 @@
  * mod.thing == 'a thing'; // true
  */
 
+var energyThinker = require('energy.thinker');
+
 var creepChoices = {
     rankSources: function(room) {
         var sources = room.find(FIND_SOURCES);
@@ -27,19 +29,15 @@ var creepChoices = {
         console.log(`Returning source ${s}, from ndx ${bestNdx}, at position ${s.pos.x},${s.pos.y}`);
         return s;
     },
-    
+
     pickBestSource: function(creep) {
         var bestSource = null;
         if( creep.memory.preferredSource && creep.memory.preferredSource !== null ) {
             bestSource = Game.getObjectById(creep.memory.preferredSource);
-            if( bestSource ) { // Object went away?
-                // console.log(`Existing bestSource for ${creep.name} is ${bestSource}`);
-            } else {
+            if( ! bestSource ) {
                 bestSource = this.rankSources(creep.room);
             }
-            // creep.say(`iluv ${bestSource.id}`);
         } else {
-            creep.say('BestSrc?');
             bestSource = this.rankSources(creep.room);
             if( ! bestSource ) {
                 creep.say('!!!!!!');
@@ -50,20 +48,32 @@ var creepChoices = {
         }
         return bestSource;
     },
+    creepUsesATM: function(creep) {
+      const rolesWhoUseATMs = ['upgrader', 'builder', 'repairman'];
+      return _.indexOf(rolesWhoUseATMs, creep.memory.role) !== -1;
+    },
 
     stillHarvesting: function(creep) {
         if(creep.carry.energy >= creep.carryCapacity) {
             return false;
         }
-        var bestSource = this.pickBestSource(creep);
-        
-        if(creep.harvest(bestSource) == ERR_NOT_IN_RANGE) {
-            // creep.say(`Go:H ${bestSource.id}`);
+        var bestSource = undefined;
+        if(this.creepUsesATM(creep)) {
+          bestSource = this.getClosestATM(creep);
+        }
+        if( ! bestSource ) {
+          this.pickBestSource(creep);
+        }
+
+        switch(energyThinker.slurp(creep, bestSource)) {
+          case ERR_NOT_IN_RANGE:
             creep.moveTo(bestSource, {visualizePathStyle: {stroke: '#ffaa00'}});
+            break;
+          default:
+          break;
         }
         return true;
     }
 
 };
 module.exports = creepChoices;
-
