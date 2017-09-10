@@ -1,4 +1,26 @@
 var energyThinker = {
+
+  // Moves energy from links which are typically deposit-only and into
+  // links which are close to RoomControllers and Towers etc.
+  //
+  linkPump: function() {
+    var scoreById = {};
+    var links = _.filter(Game.structures, s => s.structureType == STRUCTURE_LINK);
+    if(links.length < 2) { return false; }
+    /*
+    for(var link of links) {
+
+    }
+    var sources = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+        filter: (s) => {
+            return (
+              s.structureType == STRUCTURE_LINK &&
+              s.energy < s.energyCapacity);
+            }
+    });
+    */
+
+  },
   getNextEnergyStoringMechanism: function(creep) {
       // Find closest of any of these
       var target = creep.pos.findClosestByRange(FIND_STRUCTURES, {
@@ -23,7 +45,7 @@ var energyThinker = {
 
   // Returns nearest object from which a creep can withdraw energy
   getClosestATM: function(creep) {
-    var validWithDrawStructures = [STRUCTURE_STORAGE, STRUCTURE_CONTAINER];
+    var validWithDrawStructures = [STRUCTURE_STORAGE, STRUCTURE_LINK, STRUCTURE_CONTAINER];
     return creep.pos.findClosestByRange(FIND_STRUCTURES,
       { filter: (s) => {
         return _.indexOf(validWithDrawStructures, s.structureType) != -1 &&
