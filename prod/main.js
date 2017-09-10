@@ -40,7 +40,6 @@ module.exports.loop = function () {
         const pctEnergy = (room.energyAvailable / room.energyCapacityAvailable) * 100.0;
 
         for(var creep of room.find(FIND_MY_CREEPS)) {
-
             if(spawnThinker.getPopulationPercent(populationLimits) < 50.0 && pctEnergy < 75.0) {
                 roleHarvester.runOptimized(creep);
             } else {
@@ -53,7 +52,7 @@ module.exports.loop = function () {
                     case 'shooter': roleShooter.run(creep); break;
                 }
             }
-
+        }
       });
     });
 
