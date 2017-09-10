@@ -59,7 +59,7 @@ var creepChoices = {
         }
         var bestSource = undefined;
         if(this.creepUsesATM(creep)) {
-          bestSource = this.getClosestATM(creep);
+          bestSource = energyThinker.getClosestATM(creep);
         }
         if( ! bestSource ) {
           this.pickBestSource(creep);
