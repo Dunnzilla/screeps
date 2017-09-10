@@ -62,8 +62,9 @@ var creepChoices = {
           bestSource = energyThinker.getClosestATM(creep);
         }
         if( ! bestSource ) {
-          this.pickBestSource(creep);
+          bestSource = this.pickBestSource(creep);
         }
+        console.log(`Best source for ${creep.name} is ${bestSource}`);
 
         switch(energyThinker.slurp(creep, bestSource)) {
           case ERR_NOT_IN_RANGE:

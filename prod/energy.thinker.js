@@ -3,7 +3,7 @@ var energyThinker = {
   getClosestATM: function(creep) {
     var validWithDrawStructures = [STRUCTURE_LINK, STRUCTURE_STORAGE, STRUCTURE_CONTAINER];
     return creep.pos.findClosestByRange(FIND_STRUCTURES,
-      { filter: (s) => { return _.indexOf(validWithDrawStructures, s.structureType) && s.isActive() } });
+      { filter: (s) => { return _.indexOf(validWithDrawStructures, s.structureType) != -1 && s.isActive() } });
   },
   structureIsASource: function(s) {
     return (s && s.energy > 0 && ! s.structureType);
