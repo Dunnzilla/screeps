@@ -1,17 +1,6 @@
 var cc = require('creep.choices');
 
 var roleClaimer = {
-
-    pickBestTarget: function(targets) {
-        var ramparts = _.filter(targets, (t) => t.structureType == STRUCTURE_RAMPART);
-        if( ! ramparts || ! ramparts.length ) {
-            return targets[0];
-        }
-        return ramparts[0];
-    },
-
-    pickBestTarget: function(targets) { return targets[0]; },
-    
     /** @param {Creep} creep **/
     run: function(creep) {
 
