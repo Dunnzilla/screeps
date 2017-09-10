@@ -5,14 +5,17 @@ var energyThinker = {
           filter: (structure) => {
               return (structure.structureType == STRUCTURE_EXTENSION ||
                   structure.structureType == STRUCTURE_SPAWN ||
+                  structure.structureType == STRUCTURE_LINK ||
                   structure.structureType == STRUCTURE_CONTAINER ||
-                  structure.structureType == STRUCTURE_TOWER) && structure.energy < structure.energyCapacity;
+                  structure.structureType == STRUCTURE_TOWER) &&
+                  structure.energy < structure.energyCapacity;
               }
       });
       // Last preferred: stores. If all other structures are full of energy, start stuffing it into stores.
       if( ! target ) {
           target = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-              filter: (s) => { return ( s.structureType == STRUCTURE_STORAGE && s.storeCapacity > _.sum(s.store)); }}
+              filter: (s) => { return ( s.structureType == STRUCTURE_STORAGE &&
+                s.storeCapacity > _.sum(s.store)); }}
           );
       }
       return target;
