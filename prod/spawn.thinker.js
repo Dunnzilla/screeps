@@ -54,7 +54,7 @@ var spawnThinker = {
       // then let's wait for more energy.
       if(this.countCreeps('harvester') < 1) { return false; }
       if(this.getPopulationPercent() < 50.0) { return false; }
-      return (this.getRoomEnergyPercent() < 100.0);
+      return (this.getRoomEnergyPercent(Game.spawns[spawnName].room) < 100.0);
     },
 
     countCreeps: function(role) {
@@ -64,8 +64,8 @@ var spawnThinker = {
 
 
     // Returns 0.0 to 100.0
-    getRoomEnergyPercent: function(roomName) {
-      return (Game.rooms[roomName].energyAvailable / Game.rooms[roomName].energyCapacityAvailable) * 100.0;
+    getRoomEnergyPercent: function(room) {
+      return (room.energyAvailable / room.energyCapacityAvailable) * 100.0;
     },
     getPopulationPercent: function(spawnName, populationLimits) {
       var popMax = _.reduce(populationLimits, function(sum, n) { return sum + (0+n); }, 0);
