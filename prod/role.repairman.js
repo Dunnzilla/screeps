@@ -13,19 +13,22 @@ var roleHarvester = require('role.harvester');
 
 var roleRepairMan = {
   doesNeedNewTarget: function(creep) {
-    if( ! creep.memory.repairTargetId ) { return true; }
-    if( ! Game.structures[creep.memory.repairTargetId] ) { return true; }
-    var s = Game.structures[creep.memory.repairTargetId];
+    var s = Game.getObjectById(creep.memory.repairTargetId);
+    if( ! creep.memory.repairTargetId ) { console.log(`${creep.name}: Need new repair target because I have no memory of an old one.`); return true; }
+    if( ! s ) { console.log(`${creep.name}: Need new repair target because ${creep.memory.repairTargetId} isn't around any more.'`); return true; }
 
     if( s.structureType == STRUCTURE_RAMPART ) {
+        var rampartRepaired = s.hits > 100000;
+         console.log(`${creep.name}: Returning ${rampartRepaired} for ${s} (is its hits greater than 100000)`);
       return s.hits > 100000;
     }
-    return ! ( s.hits < s.hitsMax );
+    return ( s.hits >= s.hitsMax );
   },
     pickBestTarget: function(targets) {
         var ramparts = _.filter(targets, (t) => t.structureType == STRUCTURE_RAMPART);
-        if( ! ramparts || ! ramparts.length || Math.random() > 0.5 ) {  // If no ramparts, or just 50% of the time, prefer anything other than ramparts.
-            return targets[0];
+        // If no ramparts, or just 50% of the time, prefer anything other than ramparts.
+        if( ! ramparts || ! ramparts.length || Math.random() > 0.5 ) {
+          return targets[0];
         }
         return ramparts[0];
     },
@@ -42,7 +45,7 @@ var roleRepairMan = {
             // console.log(`Moving to ${targets[0]} for repairs`);
             var bt = this.pickBestTarget(targets);
             creep.memory.repairTargetId = bt.id;
-            console.log(`${creep.name} focusing on repairing ${bt.name}`);
+            console.log(`${creep.name} focusing on repairing ${bt.id}`);
         }
       }
       if( ! creep.memory.repairTargetId || ! Game.structures[creep.memory.repairTargetId] ) {
@@ -50,6 +53,7 @@ var roleRepairMan = {
       }
       return Game.structures[creep.memory.repairTargetId];
     },
+
 
     run: function(creep) {
         if(creep.memory.repairing && creep.carry.energy == 0) {

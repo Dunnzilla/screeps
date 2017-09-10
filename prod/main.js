@@ -14,13 +14,13 @@ module.exports.loop = function () {
 
     var populationLimits = {
         harvester: 6,
-        builder: 4,
+        builder: 5,
         upgrader: 4,
         repairman: 3,
         shooter: 1,
         claimer: 0
     };
-    
+
     spawnThinker.cull('Spawn1', populationLimits);
     spawnThinker.create('Spawn1', populationLimits);
 
@@ -34,15 +34,15 @@ module.exports.loop = function () {
             Game.spawns['Spawn1'].pos.y,
             {align: 'left', opacity: 0.8});
     }
-    
+
 
     const pctEnergy = (Game.rooms['W22S35'].energyAvailable / Game.rooms['W22S35'].energyCapacityAvailable) * 100.0;
-    
+
     for(var name in Game.creeps) {
         var creep = Game.creeps[name];
 
         if(spawnThinker.getPopulationPercent(populationLimits) < 50.0 && pctEnergy < 75.0) {
-            roleHarvester.runOptimized(creep); 
+            roleHarvester.runOptimized(creep);
         } else {
             switch(creep.memory.role) {
                 case 'claimer': roleClaimer.run(creep); break;
