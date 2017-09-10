@@ -12,7 +12,7 @@ var mm = require('memory.manager');
 
 module.exports.loop = function () {
     mm.clean();
-    energyThinker.linkPump();
+    if(Game.time % 10 == 0) { energyThinker.linkPump(); }
 
     var populationLimits = {
         harvester: 6,
