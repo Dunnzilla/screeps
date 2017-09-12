@@ -20,7 +20,8 @@ var lister = {
         return summary;
     },
     report: function() {
-        for(var room of Game.rooms) {
+        for(var name in Game.rooms) {
+          var room = Game.rooms[name];
           console.log(`Room ${name}: (${room.energyAvailable}/${room.energyCapacityAvailable})E, ${spawnThinker.getPopulationPercent(room)}% Pop`);
         }
         for(var key of Object.keys(Game.creeps)) {
