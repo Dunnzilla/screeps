@@ -23,11 +23,11 @@ var roleRepairMan = {
     run: function(creep) {
         if(creep.memory.repairing && creep.carry.energy == 0) {
             creep.memory.repairing = false;
-            creep.say('🔄 H:4Repair');
+            creep.say('ð H:4Repair');
         }
         if( ! creep.memory.repairing && creep.carry.energy == creep.carryCapacity) {
             creep.memory.repairing = true;
-            creep.say('🚧 repair');
+            creep.say('ð§ repair');
         }
 
         if(creep.memory.repairing) {

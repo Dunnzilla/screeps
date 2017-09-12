@@ -1,3 +1,5 @@
+
+
 var energyThinker = {
 
   // Moves energy from links which are typically deposit-only and into
@@ -49,6 +51,13 @@ var energyThinker = {
   // Returns nearest object from which a creep can withdraw energy
   getClosestATM: function(creep) {
     var validWithDrawStructures = [STRUCTURE_STORAGE, STRUCTURE_LINK, STRUCTURE_CONTAINER];
+    /*
+    if(creep.memory.role == 'builder') {
+        validWithDrawStructures.push(STRUCTURE_EXTENSION);
+    }
+    */
+    
+    // TODO Once poplimits are in game memory and not main local: if( spawnThinker.getPopulationPercent() >= 100.0) { validWithDrawStructures.push(STRUCTURE_SPAWN); }
     return creep.pos.findClosestByRange(FIND_STRUCTURES,
       { filter: (s) => {
         return _.indexOf(validWithDrawStructures, s.structureType) != -1 &&
@@ -66,10 +75,12 @@ var energyThinker = {
       return creep.harvest(structure);
     }
     var result = false;
+
     switch(structure.structureType) {
       case STRUCTURE_STORAGE:
       case STRUCTURE_LINK:
       case STRUCTURE_CONTAINER:
+      case STRUCTURE_EXTENSION:
         result = creep.withdraw(structure, RESOURCE_ENERGY);
         break;
       default:

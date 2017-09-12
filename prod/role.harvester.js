@@ -8,11 +8,11 @@ var roleHarvester = {
     runOptimized: function(creep) {
         if(creep.memory.transferring && creep.carry.energy == 0) {
             creep.memory.transferring = false;
-            creep.say('🔄 H:4Xfer');
+            creep.say('ð H:4Xfer');
         }
         if( ! creep.memory.transferring && creep.carry.energy >= creep.carryCapacity) {
             creep.memory.transferring = true;
-            creep.say('🚧 xfer');
+            creep.say('ð§ xfer');
         }
 
         if( creep.memory.transferring ) {

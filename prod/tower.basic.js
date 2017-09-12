@@ -12,11 +12,12 @@ var towerBasic = {
     var towers = _.filter(Game.structures, (s) => s.structureType == STRUCTURE_TOWER);
     towers.forEach(function(tower) {
         var myEnergyPct = (tower.energy / tower.energyCapacity) * 100.0;
-        if(myEnergyPct > 90.0) {
+        if(myEnergyPct > 75.0) {
             var closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
                 filter: (structure) => structure.hits < structure.hitsMax &&
-                structure.structureType == STRUCTURE_RAMPART &&
-                structure.hits < 100000
+                ((structure.structureType == STRUCTURE_RAMPART && structure.hits < 100000) ||
+                 (structure.structureType == STRUCTURE_ROAD && structure.hits < structure.hitsMax)
+                )
             });
             if(closestDamagedStructure) {
                 tower.repair(closestDamagedStructure);

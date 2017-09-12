@@ -14,25 +14,20 @@ module.exports.loop = function () {
     mm.clean();
     if(Game.time % 10 == 0) { energyThinker.linkPump(); }
 
-    var populationLimits = {
-        harvester: 6,
-        builder: 5,
-        upgrader: 4,
-        repairman: 3,
-        shooter: 1,
-        claimer: 0
-    };
+    towerBasic.run();
     Object.keys(Game.rooms).forEach(function workRoom(roomName ) {
       var room = Game.rooms[roomName];
       var spawns = room.find(FIND_MY_SPAWNS);
       spawns.forEach(function workSpawn(spawn) {
-        spawnThinker.cull(spawn.name, populationLimits);
-        spawnThinker.create(spawn.name, populationLimits);
-        towerBasic.run();
+
+        if(Game.time % 20 == 0) {
+            spawnThinker.cull(spawn.name);
+            spawnThinker.create(spawn.name);
+        }
         if(spawn.spawning) {
             var spawningCreep = Game.creeps[spawn.spawning.name];
             room.visual.text(
-                '🛠️' + spawningCreep.memory.role,
+                'ð ï¸' + spawningCreep.memory.role,
                 spawn.pos.x + 1,
                 spawn.pos.y,
                 {align: 'left', opacity: 0.8});
@@ -41,7 +36,7 @@ module.exports.loop = function () {
         const pctEnergy = (room.energyAvailable / room.energyCapacityAvailable) * 100.0;
 
         for(var creep of room.find(FIND_MY_CREEPS)) {
-            if(spawnThinker.getPopulationPercent(populationLimits) < 50.0 && pctEnergy < 75.0) {
+            if(spawnThinker.getPopulationPercent(room) < 50.0 && pctEnergy < 75.0) {
                 roleHarvester.runOptimized(creep);
             } else {
                 switch(creep.memory.role) {

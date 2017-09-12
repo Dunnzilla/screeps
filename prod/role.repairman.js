@@ -51,18 +51,18 @@ var roleRepairMan = {
       if( ! creep.memory.repairTargetId || ! Game.structures[creep.memory.repairTargetId] ) {
         return null;
       }
-      return Game.structures[creep.memory.repairTargetId];
+      return Game.getObjectById(creep.memory.repairTargetId);
     },
 
 
     run: function(creep) {
         if(creep.memory.repairing && creep.carry.energy == 0) {
             creep.memory.repairing = false;
-            creep.say('🔄 H:4Repair');
+            creep.say('ð H:4Repair');
         }
         if( ! creep.memory.repairing && creep.carry.energy == creep.carryCapacity) {
             creep.memory.repairing = true;
-            creep.say('🚧 repair');
+            creep.say('ð§ repair');
         }
 
         if(creep.memory.repairing) {
@@ -79,6 +79,7 @@ var roleRepairMan = {
             } else {
               roleUpgrader.run(creep);
             }
+            roleHarvester.runOptimized(creep);
           }
         } else {
             cc.stillHarvesting(creep);

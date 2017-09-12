@@ -8,7 +8,7 @@ var roleClaimer = {
         creep.moveTo(Game.flags['Claim'].pos, {visualizePathStyle: {stroke: '#0033FF'}});
       }
 
-      creep.say('⭐️');
+      creep.say('â­ï¸');
       var bestTarget = Game.flags['Claim'].pos.findClosestByRange(
           FIND_STRUCTURES, { filter: s => s.structureType == STRUCTURE_CONTROLLER }
       );

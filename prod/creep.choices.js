@@ -49,7 +49,8 @@ var creepChoices = {
         return bestSource;
     },
     creepUsesATM: function(creep) {
-      const rolesWhoUseATMs = ['upgrader', 'builder', 'repairman'];
+      // const rolesWhoUseATMs = ['upgrader', 'builder', 'repairman'];
+      const rolesWhoUseATMs = ['builder', 'repairman'];
       return _.indexOf(rolesWhoUseATMs, creep.memory.role) !== -1;
     },
 
@@ -64,6 +65,7 @@ var creepChoices = {
         if( ! bestSource ) {
           bestSource = this.pickBestSource(creep);
         }
+        if( ! bestSource ) { console.log(`Could not find best source for ${creep.name} to slurp`); return; }
 
         switch(energyThinker.slurp(creep, bestSource)) {
           case ERR_NOT_IN_RANGE:

@@ -22,7 +22,7 @@ var roleShooter = {
             if(targets.length) {
                 var bestTarget = this.pickBestTarget(targets);
                 var result = creep.rangedAttack(bestTarget);
-                // creep.say('💥');
+                // creep.say('ð¥');
                 switch(result) {
                     case ERR_NOT_IN_RANGE: creep.moveTo(bestTarget, {visualizePathStyle: {stroke: '#ff6666'}}); break;
                     case OK: break;
@@ -32,7 +32,7 @@ var roleShooter = {
                 // Nothing to build so let's repair.
                 // TODO make a series of fallback behaviors.
                 // rolePatrol.run(creep);
-                 // creep.say('🤔');
+                 // creep.say('ð¤');
             }
 
     }
