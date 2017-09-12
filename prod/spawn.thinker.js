@@ -27,23 +27,27 @@ var spawnThinker = {
         };
 
         const extrasPerRole = {
-            builder: [WORK, CARRY, MOVE],
-            claimer: [TOUGH, MOVE],
-            harvester: [WORK, CARRY, MOVE],
-            healer: [HEAL, TOUGH, MOVE],
-            repairman: [WORK, CARRY, MOVE],
-            shooter: [RANGED_ATTACK, TOUGH, MOVE],
-            upgrader: [WORK, CARRY, MOVE]
+            builder: [WORK, CARRY],
+            claimer: [TOUGH ],
+            harvester: [WORK, CARRY],
+            healer: [HEAL, TOUGH],
+            repairman: [WORK, CARRY],
+            shooter: [RANGED_ATTACK, TOUGH],
+            upgrader: [WORK, CARRY]
         };
         var config = basePerRole[role];
         var newCost = this.calculateCost(config);
         var addedAny = false;
+        var evenOdd = 1;
         while(newCost <= cost) {
-          var nextPart = extrasPerRole[role][Math.round(Math.random() * extrasPerRole[role].length)];
+          var nextPart = evenOdd%2==0 ?
+            MOVE :
+            extrasPerRole[role][Math.round(Math.random() * extrasPerRole[role].length)];
           config.push(nextPart);
           newCost = this.calculateCost(config);
           console.log(`New cost for ${role} would be ${cost} for parts ${config}`);
           addedAny = true;
+          evenOdd++;
         }
         if(addedAny) { config.pop(); }
         return config;
