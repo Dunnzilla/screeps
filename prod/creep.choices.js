@@ -50,8 +50,7 @@ var creepChoices = {
     },
     creepUsesATM: function(creep) {
       if(require('spawn.thinker').getPopulationPercent(creep.room) < 100) { return false; }
-      const rolesWhoUseATMs = ['upgrader', 'builder', 'repairman'];
-      // const rolesWhoUseATMs = ['builder', 'repairman'];
+      const rolesWhoUseATMs = ['upgrader', 'builder', 'repairman', 'healer'];
       return _.indexOf(rolesWhoUseATMs, creep.memory.role) !== -1;
     },
 
@@ -66,7 +65,10 @@ var creepChoices = {
         if( ! bestSource ) {
           bestSource = this.pickBestSource(creep);
         }
-        if( ! bestSource ) { console.log(`Could not find best source for ${creep.name} to slurp`); return; }
+        if( ! bestSource ) {
+          console.log(`Could not find best source for ${creep.name} to slurp`);
+          return false;
+        }
 
         switch(energyThinker.slurp(creep, bestSource)) {
           case ERR_NOT_IN_RANGE:

@@ -20,14 +20,13 @@ var lister = {
         return summary;
     },
     report: function() {
-        for(var name in Game.rooms) {
-            console.log(`Room ${name}: (${Game.rooms[name].energyAvailable}/${Game.rooms[name].energyCapacityAvailable})E`);
+        for(var room of Game.rooms) {
+          console.log(`Room ${name}: (${room.energyAvailable}/${room.energyCapacityAvailable})E, ${spawnThinker.getPopulationPercent(room)}% Pop`);
         }
         for(var key of Object.keys(Game.creeps)) {
-           console.log(this.creepSummary(Game.creeps[key])); 
+           console.log(this.creepSummary(Game.creeps[key]));
         }
     }
 };
 
 module.exports = lister;
-
