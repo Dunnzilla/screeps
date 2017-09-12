@@ -6,11 +6,11 @@ var roleUpgrader = {
     run: function(creep) {
         if(creep.memory.upgrading && creep.carry.energy == 0) {
             creep.memory.upgrading = false;
-            creep.say('ð H4:Upgrade');
+            creep.say('H4:Upgrade');
         }
         if(!creep.memory.upgrading && creep.carry.energy == creep.carryCapacity) {
             creep.memory.upgrading = true;
-            creep.say('â¡ Upgrade');
+            creep.say('Upgrade');
         }
 
         if(creep.memory.upgrading) {
@@ -25,4 +25,3 @@ var roleUpgrader = {
 };
 
 module.exports = roleUpgrader;
-
