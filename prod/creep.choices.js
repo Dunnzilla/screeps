@@ -49,8 +49,9 @@ var creepChoices = {
         return bestSource;
     },
     creepUsesATM: function(creep) {
-      // const rolesWhoUseATMs = ['upgrader', 'builder', 'repairman'];
-      const rolesWhoUseATMs = ['builder', 'repairman'];
+      if(require('spawn.thinker').getPopulationPercent(creep.room) < 100) { return false; }
+      const rolesWhoUseATMs = ['upgrader', 'builder', 'repairman'];
+      // const rolesWhoUseATMs = ['builder', 'repairman'];
       return _.indexOf(rolesWhoUseATMs, creep.memory.role) !== -1;
     },
 
