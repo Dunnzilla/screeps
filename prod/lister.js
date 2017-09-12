@@ -6,7 +6,7 @@
  * var mod = require('lister');
  * mod.thing == 'a thing'; // true
  */
-
+var spawnThinker = require('spawn.thinker');
 var lister = {
     creepSummary: function(creep) {
         var summary = `${creep.name}: Role ${creep.memory.role}, ${creep.body.length}-long body, ${creep.hits}/${creep.hitsMax}HP`;
