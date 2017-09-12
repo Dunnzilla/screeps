@@ -1,5 +1,3 @@
-var cc = require('creep.choices');
-
 var spawnThinker = {
     populationLimits: {
       harvester: 6,
